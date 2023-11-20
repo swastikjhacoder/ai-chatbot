@@ -37,6 +37,7 @@ const Login = () => {
         return;
       } else {
         dispatch(signInSuccess(data));
+        localStorage.setItem("current_user", data._id);
         e.target.reset();
         navigate("/");
       }

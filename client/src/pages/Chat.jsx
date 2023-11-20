@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import AIRobot from "../assets/airobot.png";
 import ChatItem from "../components/chat/ChatItem";
 import axios from "axios";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:8000");
 
 const Chat = () => {
   const [userPrompt, setUserPrompt] = useState("");
@@ -12,14 +15,17 @@ const Chat = () => {
   const handleSubmit = async () => {
     if (userPrompt.trim() !== "") {
       const content = userPrompt;
+      const user = localStorage.getItem("current_user");
       setUserPrompt("");
       const newMessage = { role: "user", content };
       setChatMessages((prev) => [...prev, newMessage]);
+      socket.emit("send_message", { message: newMessage, user });
       const response = await axios.post("/chat/new", {
         userPrompt,
       });
       const getMessage = { role: "assistant", content: response.data };
       setChatMessages((prev) => [...prev, getMessage]);
+      socket.emit("received_message", { message: getMessage, user });
     } else {
       setEmptyMessage(true);
     }

@@ -6,9 +6,13 @@ import chatRouter from "./routes/chat-route.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import { Server } from "socket.io";
+import { createServer } from "http";
+import Chat from "./models/chat-model.js";
 
 config();
 const app = express();
+const server = createServer(app);
 
 const corsOptions = {
   origin: "*",
@@ -22,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server is listening on port: ${process.env.PORT} 🤘🏻`);
 });
 
@@ -36,3 +40,23 @@ dbConnect().then(() => {
 
 app.use("/user", userRouter);
 app.use("/chat", chatRouter);
+
+const io = new Server(server, { cors: corsOptions });
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
+  socket.on("send_message", (data) => {
+    saveChats(data.message.role, data.message.content, data.user);
+  });
+  socket.on("received_message", (data) => {
+    saveChats(data.message.role, data.message.content, data.user);
+  });
+});
+
+const saveChats = async (role, content, user) => {
+  try {
+    const chat = new Chat({ role, content, user });
+    await chat.save();
+  } catch (error) {
+    console.error(error);
+  }
+};

@@ -20,7 +20,10 @@ export const generateChatCompletion = async (req, res, next) => {
 
 export const saveChats = async (req, res, next) => {
   try {
-    console.log(req.user.id);
+    const user = await User.findById({ _id: req.session.user_id });
+    if (user) {
+      console.log(`user id: ${user._id}`);
+    }
   } catch (error) {
     next(error);
     res.status(500).json({ message: error.message });
