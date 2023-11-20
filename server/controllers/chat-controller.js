@@ -15,26 +15,18 @@ export const generateChatCompletion = async (req, res, next) => {
     messages: [{ role: "user", content: userPrompt }],
     max_tokens: 100,
   });
-  console.log(response.choices[0].message.content);
   res.send(response.choices[0].message.content);
 };
 
-export const sendChatsToUser = async (req, res, next) => {
+export const saveChats = async (req, res, next) => {
   try {
-    //user token check
-    const user = await User.findById(res.locals.jwtData.id);
-    if (!user) {
-      return res.status(401).send("User not registered OR Token malfunctioned");
-    }
-    if (user._id.toString() !== res.locals.jwtData.id) {
-      return res.status(401).send("Permissions didn't match");
-    }
-    return res.status(200).json({ message: "OK", chats: user.chats });
+    console.log(req.user.id);
   } catch (error) {
-    console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
+    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
+
 export const deleteChats = async (req, res, next) => {
   try {
     //user token check

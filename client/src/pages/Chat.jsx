@@ -25,8 +25,6 @@ const Chat = () => {
     }
   };
 
-  useEffect(() => {}, [chatMessages]);
-
   return (
     <div className="chatpage-container">
       <div className="card" style={{ width: "80%", marginTop: "50px" }}>
