@@ -12,7 +12,7 @@ const Header = () => {
     <header>
       <NavLink to="/" className="logo">
         <img src={logo} alt="logo" />
-        <h1 style={{textTransform:"uppercase",fontSize:"32px"}}>AI-ChatBot</h1>
+        <h1 style={{textTransform:"uppercase"}}>AI-ChatBot</h1>
       </NavLink>
       {currentUser ? (
         <div className="profile-section">

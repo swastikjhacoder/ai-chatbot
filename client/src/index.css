@@ -13,6 +13,11 @@
   --line-height: 1.5rem;
   --letter-spacing: 1px;
   --normal-font: 16px;
+  --h1-font-size: 26px;
+  --h2-font-size: 24px;
+  --h3-font-size: 22px;
+  --h4-font-size: 20px;
+  --form-font-size: 18px;
 
   --box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -49,6 +54,14 @@ h4 {
   font-size: var(--h4-font-size);
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  font-size: var(--form-font-size);
+}
+
 /* Header section */
 
 header {
@@ -83,7 +96,7 @@ header {
 
 .profile-section span {
   font-size: var(--h2-font-size);
-  color: var(--sidebar-menu-color);
+  color: var(--header-color);
   cursor: pointer;
 }
 
@@ -97,7 +110,7 @@ header {
   padding: 20px;
   margin: auto auto;
   border-radius: 10px;
-  background: var(--sidebar-menu-color);
+  background: var(--header-color);
   box-shadow: var(--box-shadow);
 }
 
@@ -152,4 +165,79 @@ header {
 
 .home-banner img {
   width: 350px;
+}
+
+/* Password input section-------------------------------------------------------------------------- */
+.password-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding-right: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.password-box input {
+  font-size: var(--form-font-size);
+  width: 100%;
+  padding: 15px;
+  border-radius: 0 !important;
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.password-box .eye-icon {
+  font-size: var(--form-font-size);
+  cursor: pointer;
+}
+
+/* Login page section---------------------------------------------------------------------------------- */
+.login-container {
+  display: flex;
+  width: 100vw;
+  height: 100%;
+  font-size: var(--form-font-size);
+}
+
+form input {
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: var(--form-font-size);
+  border: 1px solid var(--border-color);
+}
+
+form .login-btn {
+  height: 60px;
+  padding: 20px auto;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+  background: var(--button-green);
+  color: var(--header-color);
+  font-size: var(--form-font-size);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+form .login-btn:hover {
+  opacity: 0.7;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: var(--form-font-size);
+}
+
+.strong-password-container ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
