@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --header-background: #314052;
+  --header-color: #fff;
+  --body-background: #e7ecee;
+  --text-dark: #4f5a64;
+  --text-light: #798a9a;
+  --button-red: #892020;
+  --button-green: #064120;
+  --border-color: #bdbdbd;
+
+  --line-height: 1.5rem;
+  --letter-spacing: 1px;
+  --normal-font: 16px;
+
+  --box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
+  font-family: 'Poppins' sans-serif;
+  text-decoration: none;
+}
+
+body {
+  background: var(--body-background);
+  color: var(--text-dark);
+}
+
+h1 {
+  font-size: var(--h1-font-size);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+}
+
+/* Header section */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  background: var(--header-background);
+  color: var(--header-color);
+  align-items: center;
+  padding: 40px;
+  font-size: var(--h2-font-size);
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  color: var(--header-color);
+}
+
+.logo img {
+  width: 48px;
+}
+
+.profile-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-section span {
+  font-size: var(--h2-font-size);
+  color: var(--sidebar-menu-color);
+  cursor: pointer;
+}
