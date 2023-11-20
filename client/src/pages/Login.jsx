@@ -21,7 +21,28 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    try {
+      dispatch(signInStart());
+      const res = await fetch("/user/login", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+        return;
+      } else {
+        dispatch(signInSuccess(data));
+        e.target.reset();
+        navigate("/");
+      }
+    } catch (error) {
+      dispatch(signInFailure(error.message));
+    }
   };
 
   useEffect(() => {

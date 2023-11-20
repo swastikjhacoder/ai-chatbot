@@ -1,18 +1,38 @@
 import React from "react";
 import logo from "../assets/robott.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess,
+} from "../redux/userSlice";
 
 const Header = () => {
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const handleSignOut = () => {};
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch("http://localhost:8000/user/logout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+      navigate("/login");
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message));
+    }
+  };
   return (
     <header>
       <NavLink to="/" className="logo">
         <img src={logo} alt="logo" />
-        <h1 style={{textTransform:"uppercase"}}>AI-ChatBot</h1>
+        <h1 style={{ textTransform: "uppercase" }}>AI-ChatBot</h1>
       </NavLink>
       {currentUser ? (
         <div className="profile-section">

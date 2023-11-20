@@ -1,6 +1,9 @@
 import User from "../models/user-model.js";
-import { hashSync, compare } from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { config } from "dotenv";
+
+config();
 
 export const register = async (req, res, next) => {
   try {
@@ -18,7 +21,7 @@ export const register = async (req, res, next) => {
     if (existingUser) {
       return res.status(401).json({ message: "User is already registered!" });
     }
-    const hashedPassword = hashSync(password, 10);
+    const hashedPassword = bcryptjs.hashSync(password, 10);
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
     return res
@@ -33,22 +36,19 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const validUser = await User.find({ email });
-    if (!validUser) {
-      return res.status(404).json({ message: "User not found!" });
-    }
-    const validPassword = compare(password, validUser.password);
-    if (!validPassword) {
+    const validUser = await User.findOne({ email });
+    if (!validUser) return res.status(404).json({ message: "User not found!" });
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!validPassword)
       return res.status(401).json({ message: "Wrong credentials!" });
-    }
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     res
       .cookie("auth_token", token, { httpOnly: true })
       .status(200)
-      .json({ message: "User loggedIn successfully!" });
+      .json(validUser);
   } catch (error) {
     next(error);
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
