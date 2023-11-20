@@ -15,15 +15,11 @@ const Chat = () => {
       setUserPrompt("");
       const newMessage = { role: "user", content };
       setChatMessages((prev) => [...prev, newMessage]);
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/chat/new",
-        {
-          userPrompt,
-        }
-      );
+      const response = await axios.post("/chat/new", {
+        userPrompt,
+      });
       const getMessage = { role: "assistant", content: response.data };
       setChatMessages((prev) => [...prev, getMessage]);
-      console.log(response);
     } else {
       setEmptyMessage(true);
     }
