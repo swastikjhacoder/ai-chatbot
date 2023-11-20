@@ -3,6 +3,7 @@ import { FiLogIn } from "react-icons/fi";
 import { NavLink, useNavigate } from "react-router-dom";
 import PasswordInput from "../components/PasswordInput";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -130,6 +131,36 @@ const Register = () => {
     }
   }, [formData.confirm, formData.password]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (nameError || emailError || passwordError || confirmPasswordError) {
+      setValidData(false);
+    } else {
+      try {
+        setValidData(true);
+        setLoading(true);
+
+        const res = await axios.post("/user/register", formData);
+
+        const data = await res.json();
+        if (res.status === 500 || !data) {
+          setError(data.message);
+          setLoading(false);
+          return;
+        } else {
+          setError(null);
+          setLoading(false);
+          console.log(data);
+          e.target.reset();
+          navigate("/login");
+        }
+      } catch (error) {
+        setLoading(false);
+        setError(error.message);
+      }
+    }
+  };
+
   return (
     <div className="register-container">
       <div className="card" style={{ marginTop: "50px" }}>
@@ -144,7 +175,7 @@ const Register = () => {
           <FiLogIn />
           Register
         </h1>
-        <form method="POST">
+        <form method="POST" onSubmit={handleSubmit}>
           <input
             type="text"
             name="name"

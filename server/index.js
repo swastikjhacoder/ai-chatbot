@@ -2,11 +2,24 @@ import express from "express";
 import { config } from "dotenv";
 import { dbConnect } from "./db/dbconnection.js";
 import userRouter from "./routes/user-route.js";
+import cors from "cors";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 config();
 const app = express();
 
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  methods: ["POST", "GET", "UPDATE", "DELETE", "PUT", "PATCH"],
+};
+
 app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors(corsOptions));
+app.use(cookieParser());
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is listening on port: ${process.env.PORT} 🤘🏻`);
