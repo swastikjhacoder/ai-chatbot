@@ -86,3 +86,70 @@ header {
   color: var(--sidebar-menu-color);
   cursor: pointer;
 }
+
+/* Card design */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 30%;
+  height: max-content;
+  padding: 20px;
+  margin: auto auto;
+  border-radius: 10px;
+  background: var(--sidebar-menu-color);
+  box-shadow: var(--box-shadow);
+}
+
+/* Home section */
+.homepage-container {
+  display: flex;
+  width: 100vw;
+  height: 100%;
+}
+
+.home-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 10;
+}
+
+.home-intro {
+  flex: 0.7;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.home-intro ul li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-intro button {
+  width: max-content;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+  background: var(--button-green);
+  color: var(--header-color);
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.home-intro button:hover {
+  opacity: 0.7;
+}
+
+.home-banner {
+  flex: 0.3;
+  padding: 20px;
+}
+
+.home-banner img {
+  width: 350px;
+}
