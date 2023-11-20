@@ -36,6 +36,9 @@ export const getChats = async (req, res, next) => {
 
 export const deleteChats = async (req, res, next) => {
   try {
+    Chat.deleteMany({ user: req.body }).then(() => {
+      res.status(200).json({ message: "conversations deleted!" });
+    });
   } catch (error) {
     console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });

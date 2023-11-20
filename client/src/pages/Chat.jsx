@@ -46,7 +46,6 @@ const Chat = () => {
         <div className="chat-details">
           <div className="chat-banner">
             <img src={AIRobot} alt="banner" />
-            <button style={{ margin: "auto" }}>Clear Conversations</button>
           </div>
           <div className="chat-intro">
             <h1>Model - GPT 3.5 Turbo</h1>
