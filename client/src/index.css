@@ -18,6 +18,7 @@
   --h3-font-size: 22px;
   --h4-font-size: 20px;
   --form-font-size: 18px;
+  --bigger-font-size: 36px;
 
   --box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -167,7 +168,7 @@ header {
   width: 350px;
 }
 
-/* Password input section-------------------------------------------------------------------------- */
+/* Password input section */
 .password-box {
   display: flex;
   align-items: center;
@@ -194,7 +195,7 @@ header {
   cursor: pointer;
 }
 
-/* Login page section---------------------------------------------------------------------------------- */
+/* Login page section */
 .login-container {
   display: flex;
   width: 100vw;
@@ -240,4 +241,116 @@ form .login-btn:hover {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+/* Chat page section */
+.chatpage-container {
+  display: flex;
+  width: 100vw;
+  height: 100%;
+}
+
+.chat-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 10;
+}
+
+.chat-intro {
+  flex: 0.7;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  align-items: center;
+}
+
+.chat-banner {
+  display: flex;
+  justify-content: center;
+  flex: 0.3;
+  padding: 20px;
+  flex-direction: column;
+  gap: 20px;
+  border-right: 1px solid rgb(242, 237, 237);
+}
+
+.chat-banner img {
+  width: 350px;
+}
+
+.chat-banner button {
+  width: max-content;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  text-transform: uppercase;
+  background: var(--button-red);
+  color: var(--header-color);
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.chat-banner button:hover {
+  opacity: 0.7;
+}
+
+.chat-conversation {
+  width: 100%;
+  height: 60vh;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.user-chat-item {
+  display: flex;
+  padding: 10px;
+  color: var(--text-dark);
+  gap: 10px;
+}
+
+.user-chat-item p {
+  font-size: var(--form-font-size);
+}
+
+.assistant-chat-item {
+  display: flex;
+  padding: 10px;
+  color: var(--text-light);
+  gap: 10px;
+}
+
+.assistant-chat-item p {
+  font-size: var(--form-font-size);
+}
+
+.submit-conversation {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+}
+
+.submit-conversation input {
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: var(--form-font-size);
+  border: 1px solid var(--border-color);
+}
+
+.submit-conversation button {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: var(--bigger-font-size);
+}
+
+.submit-conversation button:hover {
+  cursor: pointer;
 }
