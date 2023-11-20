@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import AIRobot from "../assets/airobot.png";
 import ChatItem from "../components/chat/ChatItem";
@@ -30,6 +30,15 @@ const Chat = () => {
       setEmptyMessage(true);
     }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get("/chat/get-all-chats");
+      const data = await response.data;
+      setChatMessages(data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="chatpage-container">

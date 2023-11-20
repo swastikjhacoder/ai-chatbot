@@ -1,4 +1,4 @@
-import User from "../models/user-model.js";
+import Chat from "../models/chat-model.js";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 
@@ -18,12 +18,16 @@ export const generateChatCompletion = async (req, res, next) => {
   res.send(response.choices[0].message.content);
 };
 
-export const saveChats = async (req, res, next) => {
+export const getChats = async (req, res, next) => {
   try {
-    const user = await User.findById({ _id: req.session.user_id });
-    if (user) {
-      console.log(`user id: ${user._id}`);
-    }
+    Chat.find({})
+      .populate("user")
+      .exec()
+      .then((data) => {
+        if (!data)
+          return res.status(404).json({ message: "conversations not found!" });
+        return res.status(200).json(data);
+      });
   } catch (error) {
     next(error);
     res.status(500).json({ message: error.message });
@@ -32,17 +36,6 @@ export const saveChats = async (req, res, next) => {
 
 export const deleteChats = async (req, res, next) => {
   try {
-    //user token check
-    const user = await User.findById(res.locals.jwtData.id);
-    if (!user) {
-      return res.status(401).send("User not registered OR Token malfunctioned");
-    }
-    if (user._id.toString() !== res.locals.jwtData.id) {
-      return res.status(401).send("Permissions didn't match");
-    }
-    user.chats = [];
-    await user.save();
-    return res.status(200).json({ message: "OK" });
   } catch (error) {
     console.log(error);
     return res.status(200).json({ message: "ERROR", cause: error.message });
