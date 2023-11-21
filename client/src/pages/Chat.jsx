@@ -33,9 +33,20 @@ const Chat = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("/chat/get-all-chats");
-      const data = await response.data;
-      setChatMessages(data);
+      try {
+        const user = localStorage.getItem("current_user");
+        const response = await axios.get(
+          `http://localhost:8000/chat/get-all-chats/${user}`
+        );
+        const data = await response.data;
+        // console.log(data.chats);
+        data.chats.map((chat) => {
+          const oldMessage = chat;
+          setChatMessages((prev) => [...prev, oldMessage]);
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
     }
     fetchData();
   }, []);

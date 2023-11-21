@@ -142,7 +142,7 @@ const Register = () => {
 
         const res = await axios.post("/user/register", formData);
 
-        const data = await res.json();
+        const data = await res.data;
         if (res.status === 500 || !data) {
           setError(data.message);
           setLoading(false);
@@ -150,7 +150,6 @@ const Register = () => {
         } else {
           setError(null);
           setLoading(false);
-          console.log(data);
           e.target.reset();
           navigate("/login");
         }

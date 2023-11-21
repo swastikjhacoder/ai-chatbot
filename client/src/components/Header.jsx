@@ -7,6 +7,7 @@ import {
   signOutUserFailure,
   signOutUserSuccess,
 } from "../redux/userSlice";
+import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,14 +17,15 @@ const Header = () => {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch("http://localhost:8000/user/logout");
-      const data = await res.json();
+      const res = await axios.post("/user/logout");
+      const data = await res.data;
       if (data.success === false) {
         dispatch(signOutUserFailure(data.message));
         return;
       }
+      localStorage.clear();
       dispatch(signOutUserSuccess(data));
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       dispatch(signOutUserFailure(error.message));
     }
