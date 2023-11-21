@@ -2,7 +2,6 @@ import express from "express";
 import { config } from "dotenv";
 import { dbConnect } from "./db/dbconnection.js";
 import userRouter from "./routes/user-route.js";
-import chatRouter from "./routes/chat-route.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -42,7 +41,6 @@ dbConnect().then(() => {
 });
 
 app.use("/user", userRouter);
-app.use("/chat", chatRouter);
 
 app.use(express.static(path.join(__dirname, "/client/build")));
 
