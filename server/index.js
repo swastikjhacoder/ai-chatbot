@@ -2,15 +2,13 @@ import express from "express";
 import { config } from "dotenv";
 import { dbConnect } from "./db/dbconnection.js";
 import userRouter from "./routes/user-route.js";
+import chatRouter from "./routes/chat-route.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { createServer } from "http";
-import path from "path";
 import User from "./models/user-model.js";
-
-const __dirname = path.resolve();
 
 config();
 const app = express();
@@ -41,12 +39,7 @@ dbConnect().then(() => {
 });
 
 app.use("/user", userRouter);
-
-app.use(express.static(path.join(__dirname, "/client/build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
+app.use("/chat", chatRouter);
 
 const io = new Server(server, { cors: corsOptions });
 io.on("connection", (socket) => {
@@ -61,7 +54,7 @@ io.on("connection", (socket) => {
 
 const saveChats = async (role, content, user) => {
   try {
-    const updatedUser = await User.updateOne(
+    await User.updateOne(
       { _id: user },
       { $addToSet: { chats: { role, content } } }
     );

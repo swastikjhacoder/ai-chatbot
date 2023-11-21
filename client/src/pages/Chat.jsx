@@ -39,10 +39,9 @@ const Chat = () => {
           `http://localhost:8000/chat/get-all-chats/${user}`
         );
         const data = await response.data;
-        // console.log(data.chats);
         data.chats.map((chat) => {
           const oldMessage = chat;
-          setChatMessages((prev) => [...prev, oldMessage]);
+          return setChatMessages((prev) => [...prev, oldMessage]);
         });
       } catch (error) {
         console.log(error.message);
