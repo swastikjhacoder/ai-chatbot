@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import PasswordInput from "../components/PasswordInput";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/userSlice";
+import axios from "axios";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -23,15 +24,8 @@ const Login = () => {
     e.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch("/user/login", {
-        method: "POST",
-        body: JSON.stringify(formData),
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
+      const res = await axios.post("/user/login", formData);
+      const data = await res.data;
       if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;

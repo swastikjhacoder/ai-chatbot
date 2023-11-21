@@ -1,6 +1,6 @@
-import Chat from "../models/chat-model.js";
 import dotenv from "dotenv";
 import OpenAI from "openai";
+import User from "../models/user-model.js";
 
 dotenv.config();
 
@@ -20,27 +20,19 @@ export const generateChatCompletion = async (req, res, next) => {
 
 export const getChats = async (req, res, next) => {
   try {
-    Chat.find({})
-      .populate("user")
-      .exec()
-      .then((data) => {
-        if (!data)
-          return res.status(404).json({ message: "conversations not found!" });
-        return res.status(200).json(data);
-      });
+    await User.findById(
+      { _id: req.params.id },
+      { "chats.role": 1, "chats.content": 1, _id: 0 }
+    ).then((data) => {
+      if (!data)
+        return res.status(404).json({ message: "conversations not found!" });
+      return res.status(200).json(data);
+      // data.map((chat) => {
+      //   return res.status(200).json(chat);
+      // });
+    });
   } catch (error) {
     next(error);
     res.status(500).json({ message: error.message });
-  }
-};
-
-export const deleteChats = async (req, res, next) => {
-  try {
-    Chat.deleteMany({ user: req.body }).then(() => {
-      res.status(200).json({ message: "conversations deleted!" });
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(200).json({ message: "ERROR", cause: error.message });
   }
 };

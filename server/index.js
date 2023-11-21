@@ -8,7 +8,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { createServer } from "http";
-import Chat from "./models/chat-model.js";
+// import Chat from "./models/chat-model.js";
+import User from "./models/user-model.js";
 
 config();
 const app = express();
@@ -54,8 +55,10 @@ io.on("connection", (socket) => {
 
 const saveChats = async (role, content, user) => {
   try {
-    const chat = new Chat({ role, content, user });
-    await chat.save();
+    const updatedUser = await User.updateOne(
+      { _id: user },
+      { $addToSet: { chats: { role, content } } }
+    );
   } catch (error) {
     console.error(error);
   }
