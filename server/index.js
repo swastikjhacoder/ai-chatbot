@@ -8,8 +8,10 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { createServer } from "http";
-// import Chat from "./models/chat-model.js";
 import User from "./models/user-model.js";
+import path from "path";
+
+const __dirname = path.resolve();
 
 config();
 const app = express();
@@ -42,6 +44,12 @@ dbConnect().then(() => {
 app.use("/user", userRouter);
 app.use("/chat", chatRouter);
 
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
 const io = new Server(server, { cors: corsOptions });
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
@@ -55,7 +63,7 @@ io.on("connection", (socket) => {
 
 const saveChats = async (role, content, user) => {
   try {
-    const updatedUser = await User.updateOne(
+    await User.updateOne(
       { _id: user },
       { $addToSet: { chats: { role, content } } }
     );

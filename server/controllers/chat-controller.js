@@ -27,9 +27,6 @@ export const getChats = async (req, res, next) => {
       if (!data)
         return res.status(404).json({ message: "conversations not found!" });
       return res.status(200).json(data);
-      // data.map((chat) => {
-      //   return res.status(200).json(chat);
-      // });
     });
   } catch (error) {
     next(error);
